@@ -1,10 +1,10 @@
 import ee
 import msslib
 
-import get_collection
-from utils import copyproperties
+from . import get_collection
+from .utils import copyproperties
 
-BUFFERED_QUEBEC = get_collection.quebec.buffer(50000)
+BUFFERED_QUEBEC = get_collection.QUEBEC.buffer(50000)
 
 # every MSS image over QC during the study period
 ALL_MSS = get_collection.get_collection(BUFFERED_QUEBEC, 1972, 1984, 40)

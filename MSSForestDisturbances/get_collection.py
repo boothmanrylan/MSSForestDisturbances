@@ -1,7 +1,14 @@
+import ee
 from itertools import chain
 from msslib import msslib
 
-from bad_image_ids import ALL_BAD_IDS
+from .bad_image_ids import ALL_BAD_IDS
+
+QUEBEC = ee.Geometry.Polygon([[[-79.78241843158267, 62.61567948606001],
+                               [-79.78241843158267, 44.98359841279507],
+                               [-56.99128073627017, 44.98359841279507],
+                               [-56.99128073627017, 62.61567948606001]]],
+                             None, False)
 
 
 def get_collection(aoi, start_year, end_year=None, max_cloud_cover=25):

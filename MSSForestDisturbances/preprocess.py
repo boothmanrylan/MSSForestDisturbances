@@ -1,7 +1,7 @@
 from msslib import msslib
 import ee
 
-from utils import copyproperties, copygeometry
+from .utils import copyproperties, copygeometry
 
 MAX_BAI = 800
 
