@@ -3,6 +3,7 @@ from msslib import msslib
 
 from bad_image_ids import ALL_BAD_IDS
 
+
 def get_collection(aoi, start_year, end_year=None, max_cloud_cover=25):
     end_year = start_year if end_year is None else end_year
 

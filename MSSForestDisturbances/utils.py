@@ -1,5 +1,6 @@
 import ee
 
+
 def copyproperties(func):
     '''Decorator to ensure func doesn't alter image metadata.
 
@@ -8,9 +9,11 @@ def copyproperties(func):
     '''
     def inner(image, *args, **vargs):
         image_properties = ee.Image(image).toDictionary()
+        time = image.get("system:time_start")
         new_image = func(image, *args, **vargs)
-        return new_image.set(image_properties)
+        return new_image.set(image_properties).set("system:time_start", time)
     return inner
+
 
 def copygeometry(func):
     '''Decorator to ensure func doesn't change image geometry.

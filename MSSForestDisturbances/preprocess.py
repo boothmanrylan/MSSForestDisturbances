@@ -5,6 +5,7 @@ from utils import copyproperties, copygeometry
 
 MAX_BAI = 800
 
+
 @copyproperties
 def standardize_single(image, band):
     image = ee.Image(image).select([band])
