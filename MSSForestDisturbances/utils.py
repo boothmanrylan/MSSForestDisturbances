@@ -2,6 +2,12 @@ from functools import wraps
 
 import ee
 
+CLASS_VIS = {
+    'min': 0,
+    'max': 5,
+    'palette': ['grey', 'saddleBrown', 'red', 'blue', 'black', 'white']
+}
+
 
 def copyproperties(func):
     """Decorator to ensure func doesn't alter image metadata.
