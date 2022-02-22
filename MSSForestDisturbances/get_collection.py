@@ -7,8 +7,8 @@ from .bad_image_ids import ALL_BAD_IDS
 QUEBEC = ee.Geometry.Polygon([[[-79.78241843158267, 62.61567948606001],
                                [-79.78241843158267, 44.98359841279507],
                                [-56.99128073627017, 44.98359841279507],
-                               [-56.99128073627017, 62.61567948606001]]],
-                             None, False)
+                               [-56.99128073627017, 62.61567948606001]]], None,
+                             False)
 
 
 def get_collection(aoi, start_year, end_year=None, max_cloud_cover=25):
@@ -23,7 +23,6 @@ def get_collection(aoi, start_year, end_year=None, max_cloud_cover=25):
         yearRange=[start_year, end_year],
         maxCloudCover=max_cloud_cover,
         maxRmseVerify=0.5,
-        excludeIds=bad_ids
-    )
+        excludeIds=bad_ids)
 
     return collection

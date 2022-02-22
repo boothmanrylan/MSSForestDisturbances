@@ -47,7 +47,10 @@ def drop_all_blank_pixels(event):
     return event.where(blank_pixels, 0)
 
 
-def apply_msscvm(event, replace_all=False, shadow_val=4, cloud_val=5,
+def apply_msscvm(event,
+                 replace_all=False,
+                 shadow_val=4,
+                 cloud_val=5,
                  burn_val=2):
     im = get_matching_image(event)
     im = msslib.calcToa(im)
@@ -57,12 +60,8 @@ def apply_msscvm(event, replace_all=False, shadow_val=4, cloud_val=5,
     return ee.Algorithms.If(
         replace_all,
         im.where(shadows, shadow_val).where(clouds, cloud_val),
-        im.where(
-            shadows.And(im.eq(burn_val)), shadow_val
-        ).where(
-            clouds.And(im.eq(burn_val)), cloud_val
-        )
-    )
+        im.where(shadows.And(im.eq(burn_val)),
+                 shadow_val).where(clouds.And(im.eq(burn_val)), cloud_val))
 
 
 @copyproperties
@@ -82,17 +81,19 @@ def squash_extra_classes(event):
 
 
 def _carry_observations_forward(event, previous_events):
+
     @copyproperties
     def _blend(top, bottom):
         return bottom.blend(top)
+
     return previous_events.add(_blend(event, previous_events.get(-1)))
 
 
 def carry_observations_forward(events):
-    return ee.ImageCollection(events.iterate(
-        _carry_observations_forward,
-        ee.List([ee.Image(0).set("year", 1972)])
-    )).toBands().slice(1)
+    first = ee.List([ee.Image(0).set("year", 1972)])
+    result = events.iterate(_carry_observations_forward, first)
+    # slice(1) to drop the blank image iterate starts with
+    return result.toBands().slice(1)
 
 
 @copyproperties

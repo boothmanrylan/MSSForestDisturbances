@@ -9,12 +9,10 @@ MAX_BAI = 800
 @copyproperties
 def standardize_single(image, band):
     image = ee.Image(image).select([band])
-    median = image.reduceRegion(
-        reducer=ee.Reducer.median(),
-        maxPixels=1e15,
-        scale=60,
-        geometry=image.geometry()
-    )
+    median = image.reduceRegion(reducer=ee.Reducer.median(),
+                                maxPixels=1e15,
+                                scale=60,
+                                geometry=image.geometry())
 
     return image.subtract(median.toImage())
 
@@ -32,10 +30,10 @@ def standardize(image):
 
 @copyproperties
 def burned_area_index(image):
-    bai = image.expression(
-        '1.0 / ((0.1 - RED)**2 + (0.06 - NIR)**2)',
-        {'NIR': image.select('nir'), 'RED': image.select('red')}
-    )
+    bai = image.expression('1.0 / ((0.1 - RED)**2 + (0.06 - NIR)**2)', {
+        'NIR': image.select('nir'),
+        'RED': image.select('red')
+    })
     return bai
 
 
@@ -51,8 +49,7 @@ def get_MSS_tasseled_cap(image):
     components_image = ee.Image(coefs).matrixMultiply(array_image_2d)
     components_image = components_image.arrayProject([0])
     components_image = components_image.arrayFlatten(
-        [['Brightness', 'Greenness', 'Yellowness', 'Nonesuch']]
-    )
+        [['Brightness', 'Greenness', 'Yellowness', 'Nonesuch']])
 
     return components_image
 

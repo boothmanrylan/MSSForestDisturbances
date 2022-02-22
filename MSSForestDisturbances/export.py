@@ -2,8 +2,12 @@ import os
 import ee
 
 
-def export_collection(image_collection, id_property, output_asset,
-                      skip=None, max_tasks=None, check=True):
+def export_collection(image_collection,
+                      id_property,
+                      output_asset,
+                      skip=None,
+                      max_tasks=None,
+                      check=True):
     input_ids = image_collection.aggregate_array(id_property).getInfo()
 
     try:  # create the output asset if it does not exist
@@ -25,9 +29,11 @@ def export_collection(image_collection, id_property, output_asset,
     for id in input_ids:
         im = image_collection.filter(ee.Filter.eq(id_property, id)).first()
         task = ee.batch.Export.image.toAsset(
-            image=im, description=id,
+            image=im,
+            description=id,
             assetId=os.path.join(output_asset, id),
-            pyramidingPolicy={'.default': 'mode'}, region=im.geometry(),
-            scale=60, maxPixels=1e10
-        )
+            pyramidingPolicy={'.default': 'mode'},
+            region=im.geometry(),
+            scale=60,
+            maxPixels=1e10)
         task.start()
