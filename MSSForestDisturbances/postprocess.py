@@ -9,7 +9,7 @@ BUFFERED_QUEBEC = get_collection.QUEBEC.buffer(50000)
 # every MSS image over QC during the study period
 ALL_MSS = get_collection.get_collection(BUFFERED_QUEBEC, 1972, 1984, 40)
 
-_land_cover = ee.ImageCollection("COPERNICUS/Landcover/100m/Proba-V-C3/GLobal")
+_land_cover = ee.ImageCollection("COPERNICUS/Landcover/100m/Proba-V-C3/Global")
 _builtup_areas = _land_cover.first().select('urban-coverfraction').gt(0)
 _cropland = _land_cover.first().select('crops-coverfraction').gt(20)
 INVALID_REGIONS = _builtup_areas.Or(_cropland)
@@ -116,3 +116,9 @@ def get_year_from_index(events, index_image):
     indices = ee.List.sequence(0, events.size().subtract(1))
     years = indices.map(lambda i: ee.Image(events_list.get(i)).get("year"))
     return index_image.remap(indices, years).int()
+
+
+def filter_and_clip(events, geometry):
+    events = events.filterBounds(geometry)
+    events = events.map(lambda event: event.clip(geometry))
+    return events
