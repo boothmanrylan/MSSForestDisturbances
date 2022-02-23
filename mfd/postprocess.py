@@ -74,6 +74,7 @@ def squash_extra_classes(event):
 
 
 def _carry_observations_forward(event, previous_events):
+    previous_events = ee.List(previous_events)
 
     @copyproperties
     def _blend(top, bottom):
