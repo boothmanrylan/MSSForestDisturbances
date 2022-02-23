@@ -8,7 +8,7 @@ CLASS_VIS = {
     'palette': ['grey', 'saddleBrown', 'red', 'blue', 'black', 'white']
 }
 
-RAINBOW_PALETTE = {
+RAINBOW_PALETTE = [
     'A0A0A0', 'FF0000', 'FF1700', 'FF2F00', 'FF4700', 'FF5E00',
     'FF7600', 'FF8E00', 'FFA600', 'FFBD00', 'FFD500', 'FFED00',
     'F9FF00', 'E1FF00', 'C9FF00', 'B1FF00', '9AFF00', '82FF00',
@@ -17,7 +17,7 @@ RAINBOW_PALETTE = {
     '00FFB1', '00FFC9', '00FFE1', '00FFF9', '00EDFF', '00D5FF',
     '00BDFF', '00A6FF', '008EFF', '0076FF', '005EFF', '0047FF',
     '002FFF', '0017FF', '0000FF',
-}
+]
 
 
 def copyproperties(func):
