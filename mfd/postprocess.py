@@ -17,8 +17,9 @@ INVALID_REGIONS = _builtup_areas.Or(_cropland)
 _sea_surface = ee.ImageCollection("HYCOM/sea_surface_elevation")
 _sea_surface = _sea_surface.filterDate('2021-01-01', '2021-12-31').first()
 _sea_surface = _sea_surface.unmask().eq(0).clip(BUFFERED_QUEBEC)
-_kernel = ee.Kernel.circle(radius=100)
-OCEAN_MASK = _sea_surface.focalMax(kernel=_kernel, iterations=4)
+_kernel = ee.Kernel.circle(radius=2)
+OCEAN_MASK = _sea_surface.focalMax(kernel=_kernel, iterations=2).reproject(
+    _sea_surface.projection())
 
 
 def set_true_date(im):
