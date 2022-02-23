@@ -87,7 +87,7 @@ def carry_observations_forward(events):
     first = ee.List([ee.Image(0).set("year", 1972)])
     result = events.iterate(_carry_observations_forward, first)
     # slice(1) to drop the blank image iterate starts with
-    return ee.ImageCollection(result).toBands().slice(1)
+    return ee.ImageCollection.fromImages(result).toBands().slice(1)
 
 
 @copyproperties
