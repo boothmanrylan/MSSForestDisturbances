@@ -92,7 +92,7 @@ def carry_observations_forward(events):
 @copyproperties
 def get_burn_year(event):
     event = event.selfMask()
-    year = ee.Number(event.get("year")).inti()
+    year = ee.Number(event.get("year")).int()
     return event.multiply(year).int()
 
 
