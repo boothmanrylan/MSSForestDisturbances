@@ -14,13 +14,6 @@ _builtup_areas = _land_cover.first().select('urban-coverfraction').gt(0)
 _cropland = _land_cover.first().select('crops-coverfraction').gt(20)
 INVALID_REGIONS = _builtup_areas.Or(_cropland)
 
-_sea_surface = ee.ImageCollection("HYCOM/sea_surface_elevation")
-_sea_surface = _sea_surface.filterDate('2021-01-01', '2021-12-31').first()
-_sea_surface = _sea_surface.unmask().eq(0).clip(BUFFERED_QUEBEC)
-_kernel = ee.Kernel.circle(radius=2)
-OCEAN_MASK = _sea_surface.focalMax(kernel=_kernel, iterations=2).reproject(
-    _sea_surface.projection())
-
 
 def set_true_date(im):
     date = im.get('DATE_ACQUIRED')
@@ -70,8 +63,7 @@ def postprocess(event, mask_clouds=False, **args):
     event = event.where(INVALID_REGIONS.And(event.eq(2)), 1)
     if (mask_clouds):
         event = apply_msscvm(event, **args)
-    event = drop_all_blank_pixels(event)
-    return event.updateMask(OCEAN_MASK)
+    return drop_all_blank_pixels(event)
 
 
 @copyproperties
