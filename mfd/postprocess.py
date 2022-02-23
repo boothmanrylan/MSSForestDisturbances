@@ -78,7 +78,7 @@ def _carry_observations_forward(event, previous_events):
 
     @copyproperties
     def _blend(top, bottom):
-        return bottom.blend(top)
+        return ee.Image(bottom).blend(top)
 
     return previous_events.add(_blend(event, previous_events.get(-1)))
 
